@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Find jobs{% endblock %}
+
+{% block content %}
+    <div class="accordion" id="jobAccordion">
+        {% for job_post_query in job_post_queries  %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ job_post_query.query.text_slug }}" aria-controls="collapse{{ job_post_query.query.text_slug }}">
+                        {{ job_post_query.query.text }}
+                    </button>
+                </h2>
+                <div id="collapse{{ job_post_query.query.text_slug }}" class="accordion-collapse collapse show" data-bs-parent="#jobAccordion">
+                    <div class="accordion-body">
+                        <div class="row row-cols-1 row-cols-md-2">
+                            {% for job_post in job_post_query.job_posts.all %}
+                                <div class="col mb-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{ job_post.employer_logo }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ job_post.job_title }}</h5>
+                                            <p class="card-text">{{ job_post.job_description }}</p>
+                                            <a href="{{ job_post.job_apply_link }}" class="btn btn-primary" target="_blank">Apply</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
